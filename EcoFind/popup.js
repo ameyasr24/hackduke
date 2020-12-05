@@ -1,9 +1,12 @@
+
 document.addEventListener('DOMContentLoaded', function(){
-    var title, tablink;
+
+    var title, tablink, brand;
     chrome.tabs.getSelected(null,function(tab) {
         //find url and title of page
         tablink = tab.url;
         title = tab.title;
+        brand = brand.hostName;
 
         //print to chrome extension
         // document.write(tablink+"\n");
@@ -11,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function(){
     });
     var alternateItemsButton = document.getElementById('alternate');
     alternateItemsButton.addEventListener('click', function(){
-        alert("These items are more sustainable\n"+tablink+"\n"+title);
+        alert("These items are more sustainable\n"+tablink+"\n"+title+"\n"+brand);
 
     }, false );
     
