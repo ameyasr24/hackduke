@@ -86,7 +86,7 @@ function hndlr(response) {
 function search(searchWords) {    
     //"https://www.googleapis.com/customsearch/v1?key=YOUR_API_KEY&cx=c391cddd12bed7ac3&q=" + searchWords + "&callback=hndlr";
     const Http = new XMLHttpRequest();
-    const url = "https://www.googleapis.com/customsearch/v1?key=AIzaSyDA2CNUq-0NziDPwx4nmOwlXjDCDfGSeYw&cx=c391cddd12bed7ac3&q=" + searchWords + "&callback=hndlr";
+    const url = "https://www.googleapis.com/customsearch/v1?key={APIKey}&cx=c391cddd12bed7ac3&q=" + searchWords + "&callback=hndlr";
     Http.open('GET',url);
     Http.send();
     Http.onreadystatechange=(e)=>{
@@ -104,9 +104,7 @@ document.addEventListener('DOMContentLoaded', function(){
         title = tab.title;
         document.getElementById("productName").innerHTML += title;
 
-        //success: function (response) {
-            search(title);
-        //}
+        search(title);
         //document.getElementById("content").innerHTML += "<br/>" + tablink+"<br/>";
         //brand = brand.hostName;
 
