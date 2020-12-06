@@ -6,7 +6,7 @@ function hndlr(response) {
     // var formatted = response.substring(response.indexOf("items")-1);
     // var jsonResponse = JSON.parse(formatted);
     if (response && count<1) {
-        document.getElementById("content").innerHTML += "<br/>" + response;
+        //document.getElementById("content").innerHTML += "<br/>" + response;
         count++;
         var index = response.indexOf("items");
         var remove = response.substring(0,index);
@@ -25,7 +25,7 @@ function hndlr(response) {
             if (startIndex > 0) {
                 startIndex+=10;
                 endIndex = result.indexOf('",',startIndex+1);
-                var title = "title "+result.substring(startIndex,endIndex);
+                var title = "title: "+result.substring(startIndex,endIndex);
                 info.push(title);
             }
 
@@ -34,8 +34,8 @@ function hndlr(response) {
             if (startIndex > 0) {
                 startIndex+=10;
                 endIndex = result.indexOf('",',startIndex+1);
-                var picture = "picture " +result.substring(startIndex,endIndex);
-                info.push(picture);
+                var image = "image: " +result.substring(startIndex,endIndex);
+                info.push(image);
             }
 
             //find link
@@ -43,7 +43,7 @@ function hndlr(response) {
             if (startIndex > 0) {
                 startIndex+=9;
                 endIndex = result.indexOf('",',startIndex+1);
-                var link = "link "+result.substring(startIndex,endIndex);
+                var link = "link: "+result.substring(startIndex,endIndex);
                 info.push(link);
             }
 
@@ -53,9 +53,37 @@ function hndlr(response) {
             results.push(info);
         }
 
-        document.getElementById("col1").innerHTML += results[0];
-        document.getElementById("col2").innerHTML += results[1];
-        document.getElementById("col3").innerHTML += results[2];
+        for (var i=1;i<=3;i++) {
+            var id = "col"+i;
+            //document.getElementById('content').innerHTML += "<br/> id: "+id;
+            for (var j=0;j<results[i-1].length;j++) {
+                
+                switch (results[i-1][j].charAt(0)) {
+                    case 't':
+                        //document.getElementById(id).innerHTML+= "<br/>"+i+" title: "+results[0][j].substring(7);
+                        var newHeading = document.createElement("h4");
+                        newHeading.innerHTML = results[i-1][j].substring(7);
+                        document.getElementById(id).appendChild(newHeading);
+                        break;
+                    case 'i':
+                        //document.getElementById(id).innerHTML+= "<br/>"+i+" img: "+results[0][j].substring(7);
+                        var img = document.createElement("img");
+                        img.src = results[i-1][j].substring(7);
+                        document.getElementById(id).appendChild(img);
+                        break;
+                    case 'l':
+                        //document.getElementById(id).innerHTML+= "<br/>"+i+" link: "+results[0][j].substring(6);
+                        var a = document.createElement('a');
+                        a.setAttribute('href',results[i-1][j].substring(6));
+                        a.innerHTML = "Click here!";
+                        document.getElementById(id).appendChild(a);
+                        break;
+                }
+            }
+        }
+        // document.getElementById("col1").innerHTML += results[0];
+        // document.getElementById("col2").innerHTML += results[1];
+        // document.getElementById("col3").innerHTML += results[2];
         // for (var j=0; j<results.length; j++) {
         //     document.getElementById("content").innerHTML += "<br/>" + results[j];
         // }
@@ -75,12 +103,12 @@ function search(searchWords) {
 
 document.addEventListener('DOMContentLoaded', function(){
 
-    var title, tablink, brand;
+    var title, tablink;
     chrome.tabs.getSelected(null,function(tab) {
         //find url and title of page
         tablink = tab.url;
         title = tab.title;
-        document.getElementById("productName").innerHTML += "<br/>" + title;
+        document.getElementById("productName").innerHTML += title;
         //document.getElementById("content").innerHTML += "<br/>" + tablink+"<br/>";
         //brand = brand.hostName;
 
@@ -97,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function(){
     // }, false );
 
     //document.getElementById("content").innerHTML += "<br/>" + "hi";
-    var searchWords = "converseshoes";
+    var searchWords = "shoes";
     search(searchWords);
     //document.getElementById("content").innerHTML += "<br/>" + "hi";
     

@@ -1,11 +1,12 @@
 body {
-  width: 500px;
+  width: 600px;
   position: relative;
   vertical-align: middle;
   /* font-family: Georgia, serif; */
   /* font-family: "Brush Script MT", cursive; */
   font-family: Garamond, serif;
   text-align: center;
+  font-size: 15px;
 }
 
 .backgroundimage {
@@ -20,7 +21,6 @@ body {
 h1 {
   color: #14c446;
   font-size: 50px;
-  background-color: white;
 }
 
 h2 {
@@ -28,11 +28,11 @@ h2 {
 }
 
 h3 {
-  font-size: 20;
+  font-size: 20px;
 }
 
 h4 {
-  font-size: 20;
+  font-size: 20px;
 }
 
 .column {
