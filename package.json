@@ -18,5 +18,6 @@
   "homepage": "https://github.com/ameyasr24/hackduke#readme",
   "dependencies": {
     "http-server": "^0.12.3"
+
   }
 }
