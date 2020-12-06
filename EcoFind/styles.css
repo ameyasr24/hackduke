@@ -54,6 +54,8 @@ img {
   align-items: center;
   justify-content: center;
   vertical-align: center;
+  font-size: 50px;
+  font-weight: bold;
 }
 
 .img {
@@ -67,7 +69,7 @@ img {
 .row {
   float: right;
   width: 60%;
-  font-size: 20px;
+  font-size: 35px;
   margin-left: 5%;
   margin-right: 3%;
 }

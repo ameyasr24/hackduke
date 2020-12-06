@@ -46,35 +46,25 @@ function hndlr(response) {
 
         //add to HTML in proper formatting
         for (var i=1;i<=3;i++) {
-            //var id = "col"+i;
             var imgID = "img"+i;
             var infoID = "info"+i;
             for (var j=0;j<results[i-1].length;j++) {
                 switch (results[i-1][j].charAt(0)) {
                     //title
                     case 't':
-                        var newHeading = document.createElement("h4");
-                        newHeading.innerHTML = (results[i-1][j].substring(7).replaceAll('\\"','\"'));
-                        //document.getElementById(id).appendChild(newHeading);
-                        document.getElementById(infoID).appendChild(newHeading);
+                        document.getElementById(infoID).innerHTML = results[i-1][j].substring(7).replaceAll('\\"','\"');
                         break;
 
                     //image
                     case 'i':
                         var img = document.createElement("img");
                         img.src = results[i-1][j].substring(7);
-                        // document.getElementById(id).appendChild(img);
                         document.getElementById(imgID).appendChild(img);
                         break;
 
                     //link
                     case 'l':
-                        var a = document.createElement('a');
-                        a.setAttribute('href',results[i-1][j].substring(6));
-                        a.setAttribute('target',"_blank");
-                        a.innerHTML = "Link here!";
-                        // document.getElementById(id).appendChild(a);
-                        document.getElementById(infoID).appendChild(a);
+                        document.getElementById(infoID).setAttribute('href',results[i-1][j].substring(6));
                         break;
                 }
             }
@@ -83,6 +73,8 @@ function hndlr(response) {
 }
 
 function search(searchWords) {
+    //change APIkey to own key
+    const APIKey = "Your-API-Key";
     const Http = new XMLHttpRequest();
     //change {APIkey} to own key
     const url = "https://www.googleapis.com/customsearch/v1?key={APIKEY}&cx=c391cddd12bed7ac3&q=" + searchWords + "&callback=hndlr";
@@ -176,9 +168,4 @@ document.addEventListener('DOMContentLoaded', function(){
 
         //alert(title);
     });
-    // var alternateItemsButton = document.getElementById('alternate');
-    // alternateItemsButton.addEventListener('click', function(){
-    //     alert("These items are more sustainable\n"+tablink+"\n"+title+"\n"+brand);
-
-    // }, false );
 }, false);
