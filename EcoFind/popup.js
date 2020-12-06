@@ -53,10 +53,10 @@ function hndlr(response) {
                 switch (results[i-1][j].charAt(0)) {
                     //title
                     case 't':
-                        var newHeading = document.createElement("h4");
-                        newHeading.innerHTML = (results[i-1][j].substring(7).replaceAll('\\"','\"'));
+                        // var newHeading = document.createElement("h4");
+                        // newHeading.innerHTML = (results[i-1][j].substring(7).replaceAll('\\"','\"'));
                         //document.getElementById(id).appendChild(newHeading);
-                        document.getElementById(infoID).appendChild(newHeading);
+                        document.getElementById(infoID).innerHTML = results[i-1][j].substring(7).replaceAll('\\"','\"');
                         break;
 
                     //image
@@ -69,12 +69,13 @@ function hndlr(response) {
 
                     //link
                     case 'l':
-                        var a = document.createElement('a');
-                        a.setAttribute('href',results[i-1][j].substring(6));
-                        a.setAttribute('target',"_blank");
-                        a.innerHTML = "Link here!";
+                        document.getElementById(infoID).setAttribute('href',results[i-1][j].substring(6));
+                        // var a = document.createElement('a');
+                        // a.setAttribute('href',results[i-1][j].substring(6));
+                        // a.setAttribute('target',"_blank");
+                        //a.innerHTML = "Link here!";
                         // document.getElementById(id).appendChild(a);
-                        document.getElementById(infoID).appendChild(a);
+                        // document.getElementById(infoID).appendChild(a);
                         break;
                 }
             }
@@ -83,9 +84,10 @@ function hndlr(response) {
 }
 
 function search(searchWords) {
+    //change APIkey to own key
+    const APIKey = {ReplaceAPIKey};
     const Http = new XMLHttpRequest();
-    //change {APIkey} to own key
-    const url = "https://www.googleapis.com/customsearch/v1?key={APIKey}&cx=c391cddd12bed7ac3&q=" + searchWords + "&callback=hndlr";
+    const url = "https://www.googleapis.com/customsearch/v1?key="+APIKey+"&cx=c391cddd12bed7ac3&q=" + searchWords + "&callback=hndlr";
     Http.open('GET',url);
     Http.send();
     Http.onreadystatechange=(e)=>{
@@ -96,7 +98,7 @@ function search(searchWords) {
 
 function getRating(brandLink){
     $.get(brandLink, null, function(text){
-        alert($(text).find('.StyledText-sc-1sadyjn-0 bBUTWf'));
+        alert($(text).find('.bBUTWf'));
     });
     var request = new XMLHttpRequest();
 
@@ -112,10 +114,10 @@ function rating(title){
     var data;
     console.log('hi');
     $.ajax({
-      type: "GET",  
-      url: "http://localhost:8080/EcoFind/companynamestest.csv",
-      dataType: "text",       
-      success: function(response)  {
+        type: "GET",  
+        url: "http://localhost:8080/EcoFind/companynamestest.csv",
+        dataType: "text",       
+        success: function(response)  {
         document.getElementById("link").innerHTML += "hello";
         data = $.csv.toArrays(response);
         console.log(data);
@@ -164,6 +166,5 @@ document.addEventListener('DOMContentLoaded', function(){
     // var alternateItemsButton = document.getElementById('alternate');
     // alternateItemsButton.addEventListener('click', function(){
     //     alert("These items are more sustainable\n"+tablink+"\n"+title+"\n"+brand);
-
     // }, false );
 }, false);
