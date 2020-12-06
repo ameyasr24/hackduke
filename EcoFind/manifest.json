@@ -2,7 +2,7 @@
     "manifest_version": 2,
 
     "name": "EcoFind Sustainable Shopping",
-    "description": "This extension will make sustainable shopping easier",
+    "description": "A must have extension to help you stay environmentally conscious! With ethical products selected just for you, sustainable shopping will be easier than ever!",
     "version": "1.0",
 
     "browser_action": {
@@ -10,13 +10,11 @@
         "default_popup": "popup.html"
     },
 
-    "js": [
-        "popup.js"
-    ],
     "permissions": [
         "activeTab",
         "tabs"
     ],
+    
     "web_accessible_resources": [
         "*"
     ]
