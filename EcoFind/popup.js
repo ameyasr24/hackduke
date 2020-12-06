@@ -1,3 +1,12 @@
+// var script = document.createElement('script');
+// script.src = 'https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js';
+// script.type = 'text/javascript';
+// document.getElementsByTagName('head')[0].appendChild(script);
+
+// script = document.createElement('script');
+// script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/0.71/jquery.csv-0.71.min.js';
+// script.type = 'text/javascript';
+// document.getElementsByTagName('head')[0].appendChild(script);
 
 var results = [];
 var count = 0;
@@ -73,6 +82,41 @@ function search(searchWords) {
 
 }
 
+function rating(title){
+    var data;
+    console.log('hi');
+    $.ajax({
+      type: "GET",  
+      url: "http://localhost:8080/EcoFind/companynamestest.csv",
+      dataType: "text",       
+      success: function(response)  {
+        document.getElementById("link").innerHTML += "hello";
+        data = $.csv.toArrays(response);
+        console.log(data);
+        var company = title;
+        // chrome.tabs.getSelected(null,function(tab) {
+        //             //find url and title of page
+        //             company = tab.title;
+        // });
+        //var company = "Abercrombie & Fitch | Authentic American clothing since 1892";
+        for (var i=0; i<data.length; i++){
+            var x = data[i];
+            var cName = x[0];
+            if (company.includes(cName)) {
+                company = cName;
+            }
+        }
+        document.getElementById("link").innerHTML += "hello";
+        console.log(company);
+        company = company.toLowerCase();
+        company = company.replaceAll(" ", "-");
+        var ratingLink = "directory.goodonyou.eco/brand/" + company;
+        console.log(ratingLink);
+        document.getElementById("link").innerHTML += ratingLink;
+        }
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function(){
 
     var title, tablink, brand;
@@ -99,6 +143,7 @@ document.addEventListener('DOMContentLoaded', function(){
     //document.getElementById("content").innerHTML += "<br/>" + "hi";
     var searchWords = "converseshoes";
     search(searchWords);
+    rating(title);
     //document.getElementById("content").innerHTML += "<br/>" + "hi";
     
 }, false);
