@@ -1,0 +1,22 @@
+{
+  "name": "hackduke",
+  "version": "1.0.0",
+  "description": "Ameya Rao, Gargi Mahadeshwar, Helen Xu, Jacob Green, Maramawit Abebe",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ameyasr24/hackduke.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ameyasr24/hackduke/issues"
+  },
+  "homepage": "https://github.com/ameyasr24/hackduke#readme",
+  "dependencies": {
+    "http-server": "^0.12.3"
+  }
+}
