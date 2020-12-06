@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "EcoFind Sustainable Shopping",
-    "description": "This extension will make sustainable shopping easier",
+    "description": "A must have extension to help you stay environmentally conscious! With ethical products selected just for you, sustainable shopping will be easier than ever!",
     "version": "1.0",
     "content_security_policy": "script-src 'self' https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/0.71/jquery.csv-0.71.min.js; object-src 'self'",
     "browser_action": {
@@ -15,7 +15,7 @@
         "http://*/",
         "directory.goodonyou.eco/*"
         ],
-
+  
     "web_accessible_resources": [
         "*"
     ]
