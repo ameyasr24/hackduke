@@ -1,12 +1,3 @@
-// var script = document.createElement('script');
-// script.src = 'https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js';
-// script.type = 'text/javascript';
-// document.getElementsByTagName('head')[0].appendChild(script);
-
-// script = document.createElement('script');
-// script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/0.71/jquery.csv-0.71.min.js';
-// script.type = 'text/javascript';
-// document.getElementsByTagName('head')[0].appendChild(script);
 
 var results = [];
 var count = 0;
@@ -95,13 +86,27 @@ function hndlr(response) {
 function search(searchWords) {    
     //"https://www.googleapis.com/customsearch/v1?key=YOUR_API_KEY&cx=c391cddd12bed7ac3&q=" + searchWords + "&callback=hndlr";
     const Http = new XMLHttpRequest();
-    const url = "https://www.googleapis.com/customsearch/v1?key={APIKey}&cx=c391cddd12bed7ac3&q=" + searchWords + "&callback=hndlr";
+    const url = "https://www.googleapis.com/customsearch/v1?key=APIKEY&cx=c391cddd12bed7ac3&q=" + searchWords + "&callback=hndlr";
     Http.open('GET',url);
     Http.send();
     Http.onreadystatechange=(e)=>{
             hndlr(Http.responseText);
     }
 
+}
+
+function getRating(brandLink){
+    $.get(brandLink, null, function(text){
+        alert($(text).find('.StyledText-sc-1sadyjn-0 bBUTWf'));
+    });
+    var request = new XMLHttpRequest();
+
+    request.addEventListener("load", function(evt){
+        console.log(evt);
+    }, false);
+
+    request.open('GET', brandLink, true),
+    request.send();
 }
 
 function rating(title){
@@ -117,8 +122,8 @@ function rating(title){
         console.log(data);
         var company = title;
         // chrome.tabs.getSelected(null,function(tab) {
-        //             //find url and title of page
-        //             company = tab.title;
+        //             //find url and title of page
+        //             company = tab.title;
         // });
         //var company = "Abercrombie & Fitch | Authentic American clothing since 1892";
         for (var i=0; i<data.length; i++){
@@ -139,6 +144,7 @@ function rating(title){
     });
 }
 
+
 document.addEventListener('DOMContentLoaded', function(){
 
     var title, tablink;
@@ -149,6 +155,8 @@ document.addEventListener('DOMContentLoaded', function(){
         document.getElementById("productName").innerHTML += title;
 
         search(title);
+        rating(title);
+        getRating("https://directory.goodonyou.eco/brand/abercrombie-and-fitch");
         //document.getElementById("content").innerHTML += "<br/>" + tablink+"<br/>";
         //brand = brand.hostName;
 
