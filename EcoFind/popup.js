@@ -6,7 +6,7 @@ function hndlr(response) {
     // var formatted = response.substring(response.indexOf("items")-1);
     // var jsonResponse = JSON.parse(formatted);
     if (response && count<1) {
-        document.getElementById("content").innerHTML += "<br/>" + response;
+        //document.getElementById("content").innerHTML += "<br/>" + response;
         count++;
         var index = response.indexOf("items");
         var remove = response.substring(0,index);
@@ -25,8 +25,17 @@ function hndlr(response) {
             if (startIndex > 0) {
                 startIndex+=10;
                 endIndex = result.indexOf('",',startIndex+1);
-                var title = "title "+result.substring(startIndex,endIndex);
+                var title = "title: "+result.substring(startIndex,endIndex);
                 info.push(title);
+            }
+
+            //find link
+            startIndex = result.indexOf('"link"',index);
+            if (startIndex > 0) {
+                startIndex+=9;
+                endIndex = result.indexOf('",',startIndex+1);
+                var link = "link: "+result.substring(startIndex,endIndex);
+                info.push(link);
             }
 
             //find image
@@ -34,17 +43,8 @@ function hndlr(response) {
             if (startIndex > 0) {
                 startIndex+=10;
                 endIndex = result.indexOf('",',startIndex+1);
-                var picture = "picture " +result.substring(startIndex,endIndex);
-                info.push(picture);
-            }
-
-            //find link
-            startIndex = result.indexOf('"link"',index)+9;
-            if (startIndex > 0) {
-                startIndex+=9;
-                endIndex = result.indexOf('",',startIndex+1);
-                var link = "link "+result.substring(startIndex,endIndex);
-                info.push(link);
+                var image = "image: " +result.substring(startIndex,endIndex);
+                info.push(image);
             }
 
             index = endIndex;
@@ -53,18 +53,40 @@ function hndlr(response) {
             results.push(info);
         }
 
-        document.getElementById("col1").innerHTML += results[0];
-        document.getElementById("col2").innerHTML += results[1];
-        document.getElementById("col3").innerHTML += results[2];
-        // for (var j=0; j<results.length; j++) {
-        //     document.getElementById("content").innerHTML += "<br/>" + results[j];
-        // }
+        for (var i=1;i<=3;i++) {
+            var id = "col"+i;
+            for (var j=0;j<results[i-1].length;j++) {
+                
+                switch (results[i-1][j].charAt(0)) {
+                    case 't':
+                        //document.getElementById(id).innerHTML+= "<br/>"+i+" title: "+results[i-1][j].substring(7);
+                        var newHeading = document.createElement("h4");
+                        newHeading.innerHTML = results[i-1][j].substring(7);
+                        document.getElementById(id).appendChild(newHeading);
+                        break;
+                    case 'i':
+                        //document.getElementById(id).innerHTML+= "<br/>"+i+" img: "+results[i-1][j].substring(7);
+                        var img = document.createElement("img");
+                        img.src = results[i-1][j].substring(7);
+                        document.getElementById(id).appendChild(img);
+                        break;
+                    case 'l':
+                        //document.getElementById(id).innerHTML+= "<br/>"+i+" link: "+results[i-1][j].substring(6);
+                        var a = document.createElement('a');
+                        a.setAttribute('href',results[i-1][j].substring(6));
+                        a.setAttribute('target',"_blank");
+                        a.innerHTML = "Click here!";
+                        document.getElementById(id).appendChild(a);
+                        break;
+                }
+            }
+        }
     }
 }
 function search(searchWords) {    
     //"https://www.googleapis.com/customsearch/v1?key=YOUR_API_KEY&cx=c391cddd12bed7ac3&q=" + searchWords + "&callback=hndlr";
     const Http = new XMLHttpRequest();
-    const url = "https://www.googleapis.com/customsearch/v1?key=AIzaSyDA2CNUq-0NziDPwx4nmOwlXjDCDfGSeYw&cx=c391cddd12bed7ac3&q=" + searchWords + "&callback=hndlr";
+    const url = "https://www.googleapis.com/customsearch/v1?key={APIKey}&cx=c391cddd12bed7ac3&q=" + searchWords + "&callback=hndlr";
     Http.open('GET',url);
     Http.send();
     Http.onreadystatechange=(e)=>{
@@ -75,18 +97,16 @@ function search(searchWords) {
 
 document.addEventListener('DOMContentLoaded', function(){
 
-    var title, tablink, brand;
+    var title, tablink;
     chrome.tabs.getSelected(null,function(tab) {
         //find url and title of page
         tablink = tab.url;
         title = tab.title;
-        document.getElementById("productName").innerHTML += "<br/>" + title;
+        document.getElementById("productName").innerHTML += title;
+
+        search(title);
         //document.getElementById("content").innerHTML += "<br/>" + tablink+"<br/>";
         //brand = brand.hostName;
-
-        //print to chrome extension
-        // document.write(tablink+"\n");
-        // document.write(title);
 
         //alert(title);
     });
@@ -95,10 +115,5 @@ document.addEventListener('DOMContentLoaded', function(){
     //     alert("These items are more sustainable\n"+tablink+"\n"+title+"\n"+brand);
 
     // }, false );
-
-    //document.getElementById("content").innerHTML += "<br/>" + "hi";
-    var searchWords = "converseshoes";
-    search(searchWords);
-    //document.getElementById("content").innerHTML += "<br/>" + "hi";
     
 }, false);
