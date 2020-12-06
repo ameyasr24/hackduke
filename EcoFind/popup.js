@@ -29,15 +29,6 @@ function hndlr(response) {
                 info.push(title);
             }
 
-            //find image
-            startIndex = result.indexOf('"image":',index);
-            if (startIndex > 0) {
-                startIndex+=10;
-                endIndex = result.indexOf('",',startIndex+1);
-                var image = "image: " +result.substring(startIndex,endIndex);
-                info.push(image);
-            }
-
             //find link
             startIndex = result.indexOf('"link"',index);
             if (startIndex > 0) {
@@ -45,6 +36,15 @@ function hndlr(response) {
                 endIndex = result.indexOf('",',startIndex+1);
                 var link = "link: "+result.substring(startIndex,endIndex);
                 info.push(link);
+            }
+
+            //find image
+            startIndex = result.indexOf('"image":',index);
+            if (startIndex > 0) {
+                startIndex+=10;
+                endIndex = result.indexOf('",',startIndex+1);
+                var image = "image: " +result.substring(startIndex,endIndex);
+                info.push(image);
             }
 
             index = endIndex;
@@ -65,10 +65,10 @@ function hndlr(response) {
                         document.getElementById(id).appendChild(newHeading);
                         break;
                     case 'i':
-                        document.getElementById(id).innerHTML+= "<br/>"+i+" img: "+results[i-1][j].substring(7);
-                        // var img = document.createElement("img");
-                        // img.src = results[i-1][j].substring(7);
-                        // document.getElementById(id).appendChild(img);
+                        //document.getElementById(id).innerHTML+= "<br/>"+i+" img: "+results[i-1][j].substring(7);
+                        var img = document.createElement("img");
+                        img.src = results[i-1][j].substring(7);
+                        document.getElementById(id).appendChild(img);
                         break;
                     case 'l':
                         //document.getElementById(id).innerHTML+= "<br/>"+i+" link: "+results[i-1][j].substring(6);
@@ -86,7 +86,7 @@ function hndlr(response) {
 function search(searchWords) {    
     //"https://www.googleapis.com/customsearch/v1?key=YOUR_API_KEY&cx=c391cddd12bed7ac3&q=" + searchWords + "&callback=hndlr";
     const Http = new XMLHttpRequest();
-    const url = "https://www.googleapis.com/customsearch/v1?key={APIKey}&cx=c391cddd12bed7ac3&q=" + searchWords + "&callback=hndlr";
+    const url = "https://www.googleapis.com/customsearch/v1?key=AIzaSyDA2CNUq-0NziDPwx4nmOwlXjDCDfGSeYw&cx=c391cddd12bed7ac3&q=" + searchWords + "&callback=hndlr";
     Http.open('GET',url);
     Http.send();
     Http.onreadystatechange=(e)=>{
@@ -103,12 +103,12 @@ document.addEventListener('DOMContentLoaded', function(){
         tablink = tab.url;
         title = tab.title;
         document.getElementById("productName").innerHTML += title;
+
+        //success: function (response) {
+            search(title);
+        //}
         //document.getElementById("content").innerHTML += "<br/>" + tablink+"<br/>";
         //brand = brand.hostName;
-
-        //print to chrome extension
-        // document.write(tablink+"\n");
-        // document.write(title);
 
         //alert(title);
     });
@@ -117,10 +117,5 @@ document.addEventListener('DOMContentLoaded', function(){
     //     alert("These items are more sustainable\n"+tablink+"\n"+title+"\n"+brand);
 
     // }, false );
-
-    //document.getElementById("content").innerHTML += "<br/>" + "hi";
-    var searchWords = "blackdress";
-    search(searchWords);
-    //document.getElementById("content").innerHTML += "<br/>" + "hi";
     
 }, false);
