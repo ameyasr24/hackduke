@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+  <head>
+    <title>EcoFind</title>
+    <output></output>
+    <script>
+        var oReq = new XMLHttpRequest();
+        function getRatings(url){
+            oReq.open("GET", url, true);
+            oReq.send();
+            console.log(oReq.statusText);
+            var xpath = '//*[@id="root"]/div/div[4]/div[1]/div[1]/div[2]/div[2]/div/div[2]/span[1]';
+            var evaluator = new XPathEvaluator();
+            var expression = evaluator.createExpression(xpath);
+            //var result = expression.evaluate(oReq.re, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE); 
+            //document.querySelector("output").textContent = result;
+        }
+        getRatings("https://directory.goodonyou.eco/brand/adidas");
+    </script>
+  </head>
+  <body>
+    <h1>EcoFind</h1>
+    <button id="alternate">Find Alternate Items</button>
+  </body>
+</html>l
