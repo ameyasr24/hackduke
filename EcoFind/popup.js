@@ -2,11 +2,7 @@
 var results = [];
 var count = 0;
 function hndlr(response) {
-    
-    // var formatted = response.substring(response.indexOf("items")-1);
-    // var jsonResponse = JSON.parse(formatted);
     if (response && count<1) {
-        //document.getElementById("content").innerHTML += "<br/>" + response;
         count++;
         var index = response.indexOf("items");
         var remove = response.substring(0,index);
@@ -15,12 +11,8 @@ function hndlr(response) {
         for (var i=0;i<3;i++) {
             var info = [];
 
-            // in production code, item.htmlTitle should have the HTML entities escaped.
-            //results.push(item.link);
-
             //find title
             var startIndex = 0, endIndex = index;
-
             startIndex = result.indexOf('"title"',index);
             if (startIndex > 0) {
                 startIndex+=10;
@@ -46,57 +38,64 @@ function hndlr(response) {
                 var image = "image: " +result.substring(startIndex,endIndex);
                 info.push(image);
             }
-
             index = endIndex;
 
             //add to results
             results.push(info);
         }
 
+        //add to HTML in proper formatting
         for (var i=1;i<=3;i++) {
-            var id = "col"+i;
+            //var id = "col"+i;
+            var imgID = "img"+i;
+            var infoID = "info"+i;
             for (var j=0;j<results[i-1].length;j++) {
-                
                 switch (results[i-1][j].charAt(0)) {
+                    //title
                     case 't':
-                        //document.getElementById(id).innerHTML+= "<br/>"+i+" title: "+results[i-1][j].substring(7);
                         var newHeading = document.createElement("h4");
-                        newHeading.innerHTML = results[i-1][j].substring(7);
-                        document.getElementById(id).appendChild(newHeading);
+                        newHeading.innerHTML = (results[i-1][j].substring(7).replaceAll('\\"','\"'));
+                        //document.getElementById(id).appendChild(newHeading);
+                        document.getElementById(infoID).appendChild(newHeading);
                         break;
+
+                    //image
                     case 'i':
-                        //document.getElementById(id).innerHTML+= "<br/>"+i+" img: "+results[i-1][j].substring(7);
                         var img = document.createElement("img");
                         img.src = results[i-1][j].substring(7);
-                        document.getElementById(id).appendChild(img);
+                        // document.getElementById(id).appendChild(img);
+                        document.getElementById(imgID).appendChild(img);
                         break;
+
+                    //link
                     case 'l':
-                        //document.getElementById(id).innerHTML+= "<br/>"+i+" link: "+results[i-1][j].substring(6);
                         var a = document.createElement('a');
                         a.setAttribute('href',results[i-1][j].substring(6));
                         a.setAttribute('target',"_blank");
-                        a.innerHTML = "Click here!";
-                        document.getElementById(id).appendChild(a);
+                        a.innerHTML = "Link here!";
+                        // document.getElementById(id).appendChild(a);
+                        document.getElementById(infoID).appendChild(a);
                         break;
                 }
             }
         }
     }
 }
-function search(searchWords) {    
-    //"https://www.googleapis.com/customsearch/v1?key=YOUR_API_KEY&cx=c391cddd12bed7ac3&q=" + searchWords + "&callback=hndlr";
+
+function search(searchWords) {
     const Http = new XMLHttpRequest();
+
+    //change {APIkey} to own key
     const url = "https://www.googleapis.com/customsearch/v1?key={APIKey}&cx=c391cddd12bed7ac3&q=" + searchWords + "&callback=hndlr";
     Http.open('GET',url);
     Http.send();
     Http.onreadystatechange=(e)=>{
-            hndlr(Http.responseText);
+        hndlr(Http.responseText);
     }
 
 }
 
 document.addEventListener('DOMContentLoaded', function(){
-
     var title, tablink;
     chrome.tabs.getSelected(null,function(tab) {
         //find url and title of page
@@ -104,16 +103,7 @@ document.addEventListener('DOMContentLoaded', function(){
         title = tab.title;
         document.getElementById("productName").innerHTML += title;
 
+        //search for related products
         search(title);
-        //document.getElementById("content").innerHTML += "<br/>" + tablink+"<br/>";
-        //brand = brand.hostName;
-
-        //alert(title);
     });
-    // var alternateItemsButton = document.getElementById('alternate');
-    // alternateItemsButton.addEventListener('click', function(){
-    //     alert("These items are more sustainable\n"+tablink+"\n"+title+"\n"+brand);
-
-    // }, false );
-    
 }, false);
