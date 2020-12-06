@@ -1,11 +1,12 @@
 body {
-  width: 500px;
+  width: 700px;
   position: relative;
   vertical-align: middle;
   /* font-family: Georgia, serif; */
   /* font-family: "Brush Script MT", cursive; */
   font-family: Garamond, serif;
   text-align: center;
+  font-size: 15px;
 }
 
 .backgroundimage {
@@ -18,25 +19,30 @@ body {
 }
 
 h1 {
-  color: #14c446;
+  color: #0fa138;
   font-size: 50px;
-  background-color: white;
 }
 
 h2 {
+  color: #14c446;
   font-size: 29px;
 }
 
 h3 {
-  font-size: 20;
+  font-size: 20px;
 }
 
 h4 {
-  font-size: 20;
+  font-size: 20px;
 }
 
 .column {
   float: left;
   width: 33.33%;
   word-break: break-word;
+}
+
+img {
+  max-width: 100%;
+  max-height: 100%;
 }
