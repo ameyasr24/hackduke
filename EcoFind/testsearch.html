@@ -1,0 +1,28 @@
+<html>
+  <head>
+    <title>Custom Search JSON API Example</title>
+  </head>
+  <body>
+    <div id="content"></div>
+    <script>
+      var results = [];
+      function hndlr(response) {
+        for (var i = 0; i < response.items.length; i++) {
+          var item = response.items[i];
+          // in production code, item.htmlTitle should have the HTML entities escaped.
+          results.push(item.link);
+          //document.getElementById("content").innerHTML += "<br/>" + item.link;
+        }
+        // for (var j=0; j<response.items.length; j++){
+        //   document.getElementById("content").innerHTML += "<br/>" + results[j];
+        // }
+      }
+    </script>
+    <script id="linkScript"></script>
+    <script>
+      var searchWords = "blackdress";
+      var link = "https://www.googleapis.com/customsearch/v1?key=YOUR_API_KEY&cx=c391cddd12bed7ac3&q=" + searchWords + "&callback=hndlr";
+      document.getElementById('linkScript').src = link;
+    </script>
+  </body>
+</html>
