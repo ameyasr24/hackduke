@@ -77,7 +77,7 @@ function search(searchWords) {
     const APIKey = "Your-API-Key";
     const Http = new XMLHttpRequest();
     //change {APIkey} to own key
-    const url = "https://www.googleapis.com/customsearch/v1?key={APIKEY}&cx=c391cddd12bed7ac3&q=" + searchWords + "&callback=hndlr";
+    const url = "https://www.googleapis.com/customsearch/v1?key={APIkey}&cx=c391cddd12bed7ac3&q=" + searchWords + "&callback=hndlr";
     Http.open('GET',url);
     Http.send();
     Http.onreadystatechange=(e)=>{
