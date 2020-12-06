@@ -85,7 +85,7 @@ function hndlr(response) {
 function search(searchWords) {
     const Http = new XMLHttpRequest();
     //change {APIkey} to own key
-    const url = "https://www.googleapis.com/customsearch/v1?key={APIKey}&cx=c391cddd12bed7ac3&q=" + searchWords + "&callback=hndlr";
+    const url = "https://www.googleapis.com/customsearch/v1?key=AIzaSyBjjgVkPLgeuUAsc7Dd7ZMoU2_LjTAdwL8&cx=c391cddd12bed7ac3&q=" + searchWords + "&callback=hndlr";
     Http.open('GET',url);
     Http.send();
     Http.onreadystatechange=(e)=>{
@@ -94,21 +94,21 @@ function search(searchWords) {
 
 }
 
-function getRating(brandLink){
-    $.get(brandLink, null, function(text){
-        alert($(text).find('.StyledText-sc-1sadyjn-0 bBUTWf'));
-    });
-    var request = new XMLHttpRequest();
+// function getRating(brandLink){
+//     $.get(brandLink, null, function(text){
+//         alert($(text).find('.StyledText-sc-1sadyjn-0 bBUTWf'));
+//     });
+//     var request = new XMLHttpRequest();
 
-    request.addEventListener("load", function(evt){
-        console.log(evt);
-    }, false);
+//     request.addEventListener("load", function(evt){
+//         console.log(evt);
+//     }, false);
 
-    request.open('GET', brandLink, true),
-    request.send();
-}
+//     request.open('GET', brandLink, true),
+//     request.send();
+// }
 
-function rating(title){
+function rating(url){
     var data;
     console.log('hi');
     $.ajax({
@@ -116,10 +116,12 @@ function rating(title){
       url: "http://localhost:8080/EcoFind/companynamestest.csv",
       dataType: "text",       
       success: function(response)  {
-        document.getElementById("link").innerHTML += "hello";
         data = $.csv.toArrays(response);
         console.log(data);
-        var company = title;
+        var linkPos = url.indexOf(".com");
+        var link = url.substring(0, linkPos);
+        console.log(url);
+        var rating, company;
         // chrome.tabs.getSelected(null,function(tab) {
         //             //find url and title of page
         //             company = tab.title;
@@ -127,18 +129,19 @@ function rating(title){
         //var company = "Abercrombie & Fitch | Authentic American clothing since 1892";
         for (var i=0; i<data.length; i++){
             var x = data[i];
-            var cName = x[0];
-            if (company.includes(cName)) {
-                company = cName;
+            var compLink = x[0];
+            if (link === compLink) {
+                company = x[1];
+                rating = x[2];
             }
         }
-        document.getElementById("link").innerHTML += "hello";
-        console.log(company);
-        company = company.toLowerCase();
-        company = company.replaceAll(" ", "-");
-        var ratingLink = "directory.goodonyou.eco/brand/" + company;
-        console.log(ratingLink);
-        document.getElementById("link").innerHTML += ratingLink;
+        // document.getElementById("link").innerHTML += "hello";
+        // console.log(company);
+        // company = company.toLowerCase();
+        // company = company.replaceAll(" ", "-");
+        // var ratingLink = "directory.goodonyou.eco/brand/" + company;
+        console.log(rating);
+        document.getElementById("ratingFont").innerHTML= company + " has a " + document.getElementById("ratingFont").innerHTML + " of " + rating;
         }
     });
 }
@@ -151,11 +154,11 @@ document.addEventListener('DOMContentLoaded', function(){
         tablink = tab.url;
         title = tab.title;
         document.getElementById("productName").innerHTML += title;
-
+        // document.getElementById("productName").innerHTML += tablink;
         //search for related products
         search(title);
-        rating(title);
-        getRating("https://directory.goodonyou.eco/brand/abercrombie-and-fitch");
+        rating(tablink);
+        // getRating("https://directory.goodonyou.eco/brand/abercrombie-and-fitch");
         //document.getElementById("content").innerHTML += "<br/>" + tablink+"<br/>";
         //brand = brand.hostName;
 
