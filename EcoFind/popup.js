@@ -84,7 +84,6 @@ function hndlr(response) {
 
 function search(searchWords) {
     const Http = new XMLHttpRequest();
-
     //change {APIkey} to own key
     const url = "https://www.googleapis.com/customsearch/v1?key={APIKey}&cx=c391cddd12bed7ac3&q=" + searchWords + "&callback=hndlr";
     Http.open('GET',url);
@@ -94,6 +93,56 @@ function search(searchWords) {
     }
 
 }
+
+function getRating(brandLink){
+    $.get(brandLink, null, function(text){
+        alert($(text).find('.StyledText-sc-1sadyjn-0 bBUTWf'));
+    });
+    var request = new XMLHttpRequest();
+
+    request.addEventListener("load", function(evt){
+        console.log(evt);
+    }, false);
+
+    request.open('GET', brandLink, true),
+    request.send();
+}
+
+function rating(title){
+    var data;
+    console.log('hi');
+    $.ajax({
+      type: "GET",  
+      url: "http://localhost:8080/EcoFind/companynamestest.csv",
+      dataType: "text",       
+      success: function(response)  {
+        document.getElementById("link").innerHTML += "hello";
+        data = $.csv.toArrays(response);
+        console.log(data);
+        var company = title;
+        // chrome.tabs.getSelected(null,function(tab) {
+        //             //find url and title of page
+        //             company = tab.title;
+        // });
+        //var company = "Abercrombie & Fitch | Authentic American clothing since 1892";
+        for (var i=0; i<data.length; i++){
+            var x = data[i];
+            var cName = x[0];
+            if (company.includes(cName)) {
+                company = cName;
+            }
+        }
+        document.getElementById("link").innerHTML += "hello";
+        console.log(company);
+        company = company.toLowerCase();
+        company = company.replaceAll(" ", "-");
+        var ratingLink = "directory.goodonyou.eco/brand/" + company;
+        console.log(ratingLink);
+        document.getElementById("link").innerHTML += ratingLink;
+        }
+    });
+}
+
 
 document.addEventListener('DOMContentLoaded', function(){
     var title, tablink;
@@ -105,5 +154,16 @@ document.addEventListener('DOMContentLoaded', function(){
 
         //search for related products
         search(title);
+        rating(title);
+        getRating("https://directory.goodonyou.eco/brand/abercrombie-and-fitch");
+        //document.getElementById("content").innerHTML += "<br/>" + tablink+"<br/>";
+        //brand = brand.hostName;
+
+        //alert(title);
     });
+    // var alternateItemsButton = document.getElementById('alternate');
+    // alternateItemsButton.addEventListener('click', function(){
+    //     alert("These items are more sustainable\n"+tablink+"\n"+title+"\n"+brand);
+
+    // }, false );
 }, false);
